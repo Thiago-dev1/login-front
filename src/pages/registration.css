@@ -1,0 +1,51 @@
+
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container form {
+    width: 100%;
+    max-width: 380px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 32px;
+    border-radius: 8px;
+    background: rgb(44, 53, 61);
+}
+
+.container form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.container form div label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.container form div input {
+    padding: 12px;
+    border-radius: 8px;
+    
+    font-size: 16px;
+}
+
+.container form button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.container form button:hover {
+    background-color: aquamarine;
+}

@@ -1,5 +1,6 @@
 import { FormEvent, useContext, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
+import Link from "next/link";
 
 export default function Home() {
   const [email, setEmail] = useState('')
@@ -33,7 +34,7 @@ export default function Home() {
 
         <div className="buttons">
           <button className="buttonSigin" type="submit">Entrar</button>
-          <a href="#">Cadastrar</a>
+          <Link href="/registration">Cadastrar</Link>
         </div>
       </form>
     </div>
