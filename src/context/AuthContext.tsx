@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Router from "next/router";
 import { api } from "../services/api";
+import { parseCookies, setCookie } from "nookies";
 
 type SignInCredentials = {
     email: string,
@@ -17,7 +18,6 @@ type AuthContextData = {
 type User = {
     email: string,
     name: string,
-    token: string
 }
 
 export const AuthContext = createContext({} as AuthContextData)
@@ -30,6 +30,23 @@ export function AuthProvider({children}: AuthProviderProps) {
     const [user, setUser] = useState<User>()
 
     const isAuthenticated = !!user;
+
+    useEffect(() => {
+        console.log("aaa")
+        const { 'login.token': token } = parseCookies()
+
+        console.log(token)
+
+        if (token) {
+            api.get('/me').then(response => {
+                const { email, name } = response.data
+                setUser({ email, name }) 
+                
+                //console.log(name)
+            })
+        }
+    }, [])
+
     
     async function signIn({email, password}: SignInCredentials) {
         
@@ -39,14 +56,22 @@ export function AuthProvider({children}: AuthProviderProps) {
                 password
             })
 
-            const { token, user } = response.data
-            
+            const { token } = response.data
+            const { name } = response.data.user
+
+
+            setCookie(undefined, 'login.token', token, {
+                maxAge: 60 * 60 * 24 * 30,
+                path: '/'
+            })
+     
             setUser({
                 email,
-                name: user.name,
-                token
+                name
             })
             
+            api.defaults.headers['Authorization'] = `Beare ${token}`
+
             Router.push("/listGames")
         } catch (err) {
             console.log(err)

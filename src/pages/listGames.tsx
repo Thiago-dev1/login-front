@@ -12,20 +12,17 @@ export default function ListGames() {
     const { user, isAuthenticated } = useContext(AuthContext)
     const [games, setGames] = useState<Game[]>([])
 
+    //console.log(user?.name)
+
     useEffect(() => {
-        api.get("games", {headers: {
-            'Authorization' : `token ${user?.token}`
-        }} )
+        api.get("games")
             .then(response => response.data)
             .then(data => setGames(data))
     }, [])
 
-    console.log(games)
-
-    if (isAuthenticated) {
         return (
             <>
-                <h1>Bem vindo {user.name}</h1>
+                <h1>Bem vindo {user?.name}</h1>
 
                 <div>
                     {games.map(game => {
@@ -36,9 +33,4 @@ export default function ListGames() {
                 </div>
             </>
         )
-    } else {
-        return (
-            <h1>Você não está logado</h1>
-        )
-    }
 }
